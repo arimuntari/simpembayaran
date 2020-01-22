@@ -1,7 +1,7 @@
 <?php 
 $listmenu = array(
               "transaksi" => array("trpembayaran"),
-              "laporan" => array("tagihan-siswa", "lap-pembayaran"),
+              "laporan" => array("tagihan-siswa", "total-tagihan-siswa", "lap-pembayaran"),
               "master" => array("siswa","tingkat","jurusan","kelas","pembayaran"),
               "setting" => array("usermanager","periode"),
             );
@@ -35,6 +35,7 @@ $listmenu = array(
           </a>
           <ul class="dropdown-menu">    
             <li><a href="?option=tagihan-siswa"><i class="fa fa-file"></i>&nbsp; Tagihan Siswa</a></li>
+            <li><a href="?option=total-tagihan-siswa"><i class="fa fa-file"></i>&nbsp; Total Tagihan Siswa</a></li>
             <li><a href="?option=lap-pembayaran"><i class="fa fa-file"></i>&nbsp; Laporan Pembayaran</a></li>
           </ul>
         </li>

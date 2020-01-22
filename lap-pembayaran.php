@@ -79,7 +79,7 @@ if(!empty($key)){
 					<td width="9%">Kelas Siswa</td>
 					<td width="18%">Nama Siswa</td>
 					<td width="14%">Tanggal Pembayaran</td>
-					<td width="9%">Total</td>
+					<td width="9%">Total(Rp.)</td>
 					<td width="5%" colspan="3"></td>
 				</tr>
 				<?php 
@@ -97,7 +97,7 @@ if(!empty($key)){
 					<td><?Php echo kelasSiswa($row['id_siswa'], $con);?></td>
 					<td><?Php echo $row['nama'];?></td>
 					<td><?Php echo tglConvert($tgl[0], '-', '/');?></td>
-					<td align="right"><?php echo "Rp. ".cost($row['total']);?></td>
+					<td align="right"><?php echo cost($row['total']);?></td>
 					<td align="center">
 						<button onclick="window.open('cetak_trpembayaran.php?id=<?php echo $row['id'];?>');" class="btn btn-default btn-xs" title="Print Data"><i class="fa fa-print"></i></button>
 							

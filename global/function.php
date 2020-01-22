@@ -50,7 +50,7 @@ function pagination($jmldata, $link='index.php',   $batas=10, $hal=1){
 			if($hal == $i){
 				$class="active";
 			}
-	       $page .="<li class='$class'><a href='$link&hal=$i'>$i</a></li>";
+			$page .="<li class='$class'><a href='$link&hal=$i'>$i</a></li>";
 		}
 		if($hal<$jmlhal){
 			$last = $hal+1;
@@ -201,5 +201,64 @@ function cekBulanBayar($id_siswa, $id_pembayaran, $con){
 		$bulan = ($rowbayar["bulan"]+1)%12;
 	}
 	return $bulan;
+}
+function totalTagihan ($id_siswa, $con){
+	$sisa = 0;
+	$query = mysqli_query($con, "select a.* from ms_pembayaran a inner join ms_pembayaran_tingkat b on b.id_pembayaran = a.id inner join ms_pembayaran_jurusan c on c.id_pembayaran = a.id where (b.id_tingkat, c.id_jurusan, a.id_periode) in (select id_tingkat, id_jurusan, id_periode from ms_siswa_kelas where id_siswa= '$id_siswa')");
+	while($row = mysqli_fetch_array($query)){
+		if($row["tipe"]=='0'){
+			$cekbayar = mysqli_query($con, "select * from tr_pembayaran_detil a inner join tr_pembayaran b on a.id_trpembayaran = b.id where id_pembayaran = '".$row['id']."' and id_siswa = '$id_siswa'");
+			$jmlbayar =mysqli_num_rows($cekbayar);
+			$rowbayar =mysqli_fetch_array($cekbayar);
+			if($jmlbayar==0){
+				$no++;
+				$sisa+=$row['harga'];
+			}
+		}else if($row["tipe"]=='1'){
+			$cek  =true;
+			$cekbayar = mysqli_query($con, "select * from tr_pembayaran_detil a inner join tr_pembayaran b on a.id_trpembayaran = b.id where id_pembayaran = '".$row['id']."' and id_siswa = '$id_siswa' order by a.id desc");
+			$jmlbayar =mysqli_num_rows($cekbayar);
+			$rowbayar =mysqli_fetch_array($cekbayar);
+			if($jmlbayar==0){
+				$bulan = 6;
+			}else{
+				$bulan = $rowbayar["bulan"];
+			}
+			while($bulan != 6 || $cek == true){
+				$cek  =false;
+				$bulan++;
+				$no++;
+
+				$bulan = $bulan%12;
+				$sisa+=$row['harga'];
+			}
+		}else{
+			$cek = false;
+			$cekbayar = mysqli_query($con, "select * from tr_pembayaran_detil a inner join tr_pembayaran b on a.id_trpembayaran = b.id where id_pembayaran = '".$row['id']."' and id_siswa = '$id_siswa'");
+			$jmlbayar =mysqli_num_rows($cekbayar);
+			$rowbayar =mysqli_fetch_array($cekbayar);
+
+			if($jmlbayar == 0){
+				$sqlcek = mysqli_query($con, "select b.harga-sum(bayar) as sisa_bayar from tr_pembayaran_angsuran a inner join ms_pembayaran b on a.id_pembayaran = b.id where id_pembayaran ='".$row['id']."' and id_siswa = '$id_siswa' group by id_pembayaran");
+
+				$jmlbayar = mysqli_num_rows($sqlcek);
+				$rowcek = mysqli_fetch_array($sqlcek);
+				if($jmlbayar == 0){
+					$cek = true;
+					$rowcek["sisa_bayar"] = $row["harga"];
+				}else{
+					if($rowcek["sisa_bayar"]>0){
+						$cek = true;
+					}else{
+						$cek = false;
+					}
+				}
+			}
+			if($cek){
+				$sisa+=$rowcek["sisa_bayar"];	
+			}
+		}
+	}
+	return $sisa;
 }
 ?>

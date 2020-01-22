@@ -84,6 +84,8 @@ $batas = 10;
      include "tagihan-siswa.php";
    }elseif($option=='lap-pembayaran'){
      include "lap-pembayaran.php";
+   }elseif($option=='total-tagihan-siswa'){
+     include "total-tagihan-siswa.php";
    }else{
      include "welcome.php";  
    }

@@ -44,7 +44,7 @@ if($act == 'del'){
 				<div class="col-md-3">
 					<div class="form-group">
 		              <label for="nama_pembayaran">Kode Pembayaran *</label>
-		              <input type="text" class="form-control" id="nama_pembayaran" name="nama_pembayaran" required placeholder="Masukkan Kode Pembayaran" value="<?php echo kodePembayaran($con);?>">
+		              <input type="text" readonly class="form-control" id="nama_pembayaran" name="nama_pembayaran" required placeholder="Masukkan Kode Pembayaran" value="<?php echo kodePembayaran($con);?>">
 		            </div>
 					
 	        	</div>
@@ -139,7 +139,7 @@ if($act == 'del'){
 					<td width="9%">Kode Siswa</td>
 					<td width="19%">Nama Siswa</td>
 					<td width="9%">Tanggal Pembayaran</td>
-					<td width="9%">Total</td>
+					<td width="9%">Total(Rp. )</td>
 					<td width="10%" colspan="3"></td>
 				</tr>
 				<?php 
@@ -154,7 +154,7 @@ if($act == 'del'){
 					<td><?Php echo $row['nisn'];?></td>
 					<td><?Php echo $row['nama'];?></td>
 					<td><?Php echo tglConvert($tgl[0], '-', '/');?></td>
-					<td align="right"><?php echo "Rp. ".cost($row['total']);?></td>
+					<td align="right"><?php echo cost($row['total']);?></td>
 					<td align="center">
 						<button onclick="window.open('cetak_trpembayaran.php?id=<?php echo $row['id'];?>');" class="btn btn-default btn-xs" title="Print Data"><i class="fa fa-print"></i></button>
 							&nbsp;&nbsp;

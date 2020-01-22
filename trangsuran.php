@@ -136,11 +136,11 @@ if($act == 'del'){
 				<tr class="bg-primary">
 					<td width="3%">No</td>
 					<td width="15%">Nama Pembayaran</td>
-					<td width="6%">Harga</td>
-					<td width="19%">Nama Siswa</td>
+					<td width="8%">Harga(Rp.)</td>
+					<td width="13%">Nama Siswa</td>
 					<td width="9%">Tanggal Angsuran</td>
-					<td width="6%">Bayar</td>
-					<td width="6%">Total Bayar</td>
+					<td width="8%">Bayar(Rp.)</td>
+					<td width="8%">Total Bayar(Rp.)</td>
 					<td width="10%" colspan="3"></td>
 				</tr>
 				<?php 
@@ -154,11 +154,11 @@ if($act == 'del'){
 				<tr>
 					<td><?php echo $no;?></td>
 					<td><?php echo $row['nama_pembayaran'];?></td>
-					<td  align="right"><?Php echo "Rp. ".cost($row['harga']);?></td>
+					<td  align="right"><?Php echo cost($row['harga']);?></td>
 					<td><?Php echo  $row['nisn']." ".$row['nama'];?></td>
 					<td><?Php echo tglConvert($tgl[0], '-', '/');?></td>
 					<td  align="right"><?Php echo cost($row['bayar']);?></td>
-					<td align="right"><?php echo "Rp. ".cost($rowbayar['total']);?></td>
+					<td align="right"><?php echo cost($rowbayar['total']);?></td>
 					<td align="center">
 						<button onclick="window.open('cetak_trangsuran.php?id=<?php echo $row['id'];?>');" class="btn btn-default btn-xs" title="Print Data"><i class="fa fa-print"></i></button>
 							&nbsp;&nbsp;

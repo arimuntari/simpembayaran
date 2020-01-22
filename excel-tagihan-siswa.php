@@ -21,22 +21,22 @@ $jmldata = mysqli_num_rows($query);
 	<tr>
 		<td width="150px">Kode Siswa</td>
 		<td width="5px">:</td>
-		<td width="65%"> &nbsp;<?php echo $row['nisn']?></td>
+		<td width="65%"> &nbsp;<?php echo $rowdetil['nisn']?></td>
 	</tr>
 	<tr>
 		<td>Nama Siswa</td>
 		<td>:</td>
-		<td> &nbsp;<?php echo $row['nama']?></td>
+		<td> &nbsp;<?php echo $rowdetil['nama']?></td>
 	</tr>
 	<tr>
 		<td>Kelas</td>
 		<td>:</td>
-		<td> &nbsp;<?php echo kelasSiswa($row['id'], $con)?></td>
+		<td> &nbsp;<?php echo kelasSiswa($rowdetil['id'], $con)?></td>
 	</tr>
 	<tr>
 		<td>No. Telp</td>
 		<td>:</td>
-		<td> &nbsp;<?php echo $row['no_telp']?></td>
+		<td> &nbsp;<?php echo $rowdetil['no_telp']?></td>
 	</tr>
 </table>
 <div class="table-responsive">
@@ -93,12 +93,9 @@ $jmldata = mysqli_num_rows($query);
 					$sisa+=$row['harga'];
 				}
 			}else{
-				echo "asdasdasd";
 				$cekbayar = mysqli_query($con, "select * from tr_pembayaran_detil a inner join tr_pembayaran b on a.id_trpembayaran = b.id where id_pembayaran = '".$row['id']."' and id_siswa = '$id_siswa'");
 				$jmlbayar =mysqli_num_rows($cekbayar);
 				$rowbayar =mysqli_fetch_array($cekbayar);
-
-				echo "select b.harga-sum(bayar) as sisa_bayar from tr_pembayaran_angsuran a inner join ms_pembayaran b on a.id_pembayaran = b.id where id_pembayaran ='".$row['id']."' and id_siswa = '$id_siswa' group by id_pembayaran";
 
 				$sqlcek = mysqli_query($con, "select b.harga-sum(bayar) as sisa_bayar from tr_pembayaran_angsuran a inner join ms_pembayaran b on a.id_pembayaran = b.id where id_pembayaran ='".$row['id']."' and id_siswa = '$id_siswa' group by id_pembayaran");
 				$rowcek = mysqli_fetch_array($sqlcek);

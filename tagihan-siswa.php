@@ -81,7 +81,7 @@ $row = mysqli_fetch_array($sqlsiswa);
 					<td width="3%">No</td>
 					<td width="100px">Periode</td>
 					<td width="300px">Nama Pembayaran</td>
-					<td width="200px">Harga</td>
+					<td width="200px">Harga(Rp.)</td>
 					<td width="10px">&nbsp;</td>
 				</tr>
 				<?php 

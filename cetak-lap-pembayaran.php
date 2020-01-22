@@ -1,6 +1,8 @@
 <?php 
+session_start();
 include "global/config.php";
 include "global/function.php";
+$id_usermanager = mysqli_escape_string($con, $_SESSION['ses_id']);
 $table = "tr_pembayaran";
 $id_periode = periodeAktif($con);
 $tgl1 = $_REQUEST['tgl1']; 
@@ -81,7 +83,7 @@ $where = " tgl_pembayaran between '".tglConvert($tgl1,"/")."' and '".tglConvert(
 			<td width="9%">Kelas Siswa</td>
 			<td width="15%">Nama Siswa</td>
 			<td width="12%">Tanggal Pembayaran</td>
-			<td width="9%">Total</td>
+			<td width="9%">Total(Rp.)</td>
 		</tr>
 		<?php 
 		$no = 0;
@@ -106,5 +108,27 @@ $where = " tgl_pembayaran between '".tglConvert($tgl1,"/")."' and '".tglConvert(
 		<tr>
 			<td colspan="6" align="right">Total :</td>
 			<td align="right"><?php echo "Rp. ".cost($total);?></td>
+		</tr>
+	</table>
+	<?php 
+		$sqladmin = mysqli_query($con, "select * from usermanager where id = '".$id_usermanager."'");
+		$row = mysqli_fetch_array($sqladmin);
+	?>
+	<table width="100%">
+		<tr>
+			<td width="70%"></td>
+			<td width="30%" align="center">Surabaya, <?php echo tglIndo2(date("Y-m-d"), ' ');?></td>
+		</tr>
+		<tr>
+			<td width="70%"></td>
+			<td width="30%" align="center">Petugas Pembayaran </td>
+		</tr>
+		<tr>
+			<td height="60px" width="70%"></td>
+			<td width="30%"> </td>
+		</tr>
+		<tr>
+			<td width="70%"></td>
+			<td width="30%" align="center"><?php echo $row['nama'] ;?></td>
 		</tr>
 	</table>

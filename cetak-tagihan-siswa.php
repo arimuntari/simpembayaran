@@ -3,6 +3,7 @@ session_start();
 include "global/config.php";
 include "global/function.php";
 
+$id_usermanager = mysqli_escape_string($con, $_SESSION['ses_id']);
 
 $table = "tr_pembayaran";
 $where = " tgl_pembayaran = '".tglConvert($tgl, '/')."'";
@@ -174,5 +175,27 @@ $row = mysqli_fetch_array($sqlsiswa);
 					<td align="right"><?php echo "Rp. ".cost($sisa); ?></td>
 				</tr>
 			</table>
+	<?php 
+		$sqladmin = mysqli_query($con, "select * from usermanager where id = '".$id_usermanager."'");
+		$row = mysqli_fetch_array($sqladmin);
+	?>
+	<table width="100%">
+		<tr>
+			<td width="70%"></td>
+			<td width="30%" align="center">Surabaya, <?php echo tglIndo2(date("Y-m-d"), ' ');?></td>
+		</tr>
+		<tr>
+			<td width="70%"></td>
+			<td width="30%" align="center">Petugas Pembayaran </td>
+		</tr>
+		<tr>
+			<td height="60px" width="70%"></td>
+			<td width="30%"> </td>
+		</tr>
+		<tr>
+			<td width="70%"></td>
+			<td width="30%" align="center"><?php echo $row['nama'] ;?></td>
+		</tr>
+	</table>
 </body>
 </html>
