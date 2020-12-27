@@ -145,6 +145,7 @@ if($act == 'del'){
 				$no = 0;
 				while($row = mysqli_fetch_array($query)){
 					$no++;
+					
 				?>
 				<tr>
 					<td><?php echo $no;?></td>

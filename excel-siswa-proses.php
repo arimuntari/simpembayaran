@@ -22,7 +22,7 @@ for($i=2;$i<=$jml;$i++){
 	$tmp_lahir = $data->getCell('H'.$i)->getValue(); 
 	$tgl_lahir = $data->getCell('I'.$i)->getValue();
 	$no_telp ="";	
-	if($data->getCell('J'.$i)->getValue(); ){
+	if($data->getCell('J'.$i)->getValue()){
 		$no_telp = "0".$data->getCell('J'.$i)->getValue(); 
 	}
 	$id_tingkat = $data->getCell('L'.$i)->getValue(); 

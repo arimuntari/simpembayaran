@@ -31,7 +31,7 @@ if($act == 'aktif'){
 }
 
 if($act == 'del'){
-	echo "delete from ms_siswa_kelas where id_siswa = '$id' and id_periode='$id_periode'";
+	//echo "delete from ms_siswa_kelas where id_siswa = '$id' and id_periode='$id_periode'";
 	$query = mysqli_query($con, "delete from ms_siswa_kelas where id_siswa = '$id' and id_periode='$id_periode'");
 	$query = mysqli_query($con, "delete from $table where id = '$id'");
 	echo mysqli_errno($con);

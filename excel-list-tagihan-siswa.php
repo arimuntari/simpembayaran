@@ -1,14 +1,33 @@
 <?php 
+session_start();
 include "global/config.php";
 include "global/function.php";
-$table = "tr_pembayaran";
+$table = "ms_siswa";
+$where = " 1=1 ";
+$id_usermanager = mysqli_escape_string($con, $_SESSION['ses_id']);
 
 header("Content-type: application/vnd-ms-excel");
-header("Content-Disposition: attachment; filename=tagihan_siswa_$rowdetil[nama].xls");
+header("Content-Disposition: attachment; filename=tagihan_siswa.xls");
+$id_siswa = $_REQUEST['id_siswa']; 
+$id_tingkat = $_REQUEST['id_tingkat'];
+$id_jurusan = $_REQUEST['id_jurusan'];
+$id_kelas = $_REQUEST['id_kelas'];
+if(!empty($key)){
+	$where .= " and a.nisn like '%$key%' or nama like '%$key%'";
+}
+if(!empty($id_tingkat)){
+	$where .= " and id_tingkat = '$id_tingkat'";
+}
+if(!empty($id_jurusan)){
+	$where .= " and id_jurusan = '$id_jurusan'";
+}
+if(!empty($id_kelas)){
+	$where .= " and id_kelas = '$id_kelas'";
+}
 ?>
 <div class="table-responsive">
 	<?php
-	$sql = "select * from ms_siswa";
+	$sql = "select b.*, a.* from $table a inner join ms_siswa_kelas b on b.id_siswa  = a.id where $where order by a.id desc ";
 	$query = mysqli_query($con, $sql);
 	$jmldata = mysqli_num_rows($query);
 	?>
@@ -17,6 +36,7 @@ header("Content-Disposition: attachment; filename=tagihan_siswa_$rowdetil[nama].
 			<td width="3%">No</td>
 			<td width="100px">Kode Siswa</td>
 			<td width="100px">Nama Siswa</td>
+			<td width="100px">Kelas</td>
 			<td width="300px">Alamat</td>
 			<td width="100px">No Telepon</td>
 			<td width="100px">Total Tagihan(Rp.)</td>
@@ -25,28 +45,24 @@ header("Content-Disposition: attachment; filename=tagihan_siswa_$rowdetil[nama].
 		$sisa = 0;
 		$no = 1;
 		while($row = mysqli_fetch_array($query)){
+			$tagihan= totalTagihan($row['id'], $con);
+			$sisa +=$tagihan
 			?>
 			<tr>
 				<td><?php echo $no++;?></td>
-				<td><?php echo $row["nisn"];?></td>
-				<td><?php echo $row["nama"];?></td>
+				<td><?php echo Highlight($row['nisn'], $key);?></td>
+				<td><?php echo Highlight($row['nama'], $key);?></td>
+				<td><?php echo kelasSiswa($row['id'], $con);?></td>
 				<td><?php echo $row["alamat"];?></td>
 				<td><?php echo $row["no_telp"];?></td>
-				<td><?php echo cost(totalTagihan($row['id'], $con));?></td>
+				<td align="right"><?php echo cost($tagihan);?></td>
 			</tr>
 			<?php
 		}
 		?>
 		<tr>
-			<td colspan="3" align="right"> Total :</td>
+			<td colspan="6" align="right"> Total :</td>
 			<td align="right"><?php echo "Rp. ".cost($sisa); ?></td>
-			<td align="right">
-				<form action="send-sms-all.php" method="POST" target="_blank">
-					<input type="hidden" name="id_siswa" value="<?php echo $id_siswa;?>">
-					<input type="hidden" name="nilai" value="<?php echo $sisa;?>">
-					<button target="_blank" class="btn btn-default btn-sm">Kirim SMS</button>
-				</form>
-			</td>
 		</tr>
 	</table>
 	<?php 
